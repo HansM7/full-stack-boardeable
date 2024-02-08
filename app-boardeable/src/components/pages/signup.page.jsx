@@ -3,7 +3,7 @@ import SignupTemplate from "../templates/signup.template";
 import { ToastContext } from "../../context/auth-toast.context";
 import ToastErrorMolecule from "../molecules/toast-error.molecule";
 
-function SignuPage() {
+function SignupPage() {
   const { toastInfo } = useContext(ToastContext);
 
   return (
@@ -18,4 +18,4 @@ function SignuPage() {
   );
 }
 
-export default SignuPage;
+export default SignupPage;
