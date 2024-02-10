@@ -8,6 +8,12 @@ class UserQuery {
     return response.rows[0];
   }
 
+  async findUserById(id: string) {
+    const sql = "select*from users where id=$1";
+    const response = await query(sql, [id]);
+    return response.rows[0];
+  }
+
   async createUser(data: IAuth) {
     const sql =
       "insert into users(username, password) values($1, $2) returning*";

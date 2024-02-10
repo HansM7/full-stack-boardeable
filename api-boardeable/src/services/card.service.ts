@@ -15,6 +15,20 @@ class CardService {
     }
   }
 
+  async findCardsReplace(boardId: string, status_id: string) {
+    try {
+      const res_board = await boardService.findBoardForId(boardId);
+      if (!res_board.response.ok) return res_board;
+      const cards = await cardQuery.findCardsForStatusAndBoard(
+        boardId,
+        status_id
+      );
+      return http.http200("All cards", cards);
+    } catch (error) {
+      return http.http500("Error in find cards", error);
+    }
+  }
+
   async createCard(data: ICard) {
     try {
       // pending validation repeat card title

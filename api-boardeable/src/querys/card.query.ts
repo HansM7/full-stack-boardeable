@@ -2,6 +2,13 @@ import { query } from "../database/postgresql";
 import { ICard } from "../models/interfaces/card.interface";
 
 class CardQuery {
+  async findCardsForStatusAndBoard(board_id: string, status_id: string) {
+    const sql =
+      "select* from cards where board_id =$1 and board_status_id =$2 ";
+    const response = await query(sql, [board_id, status_id]);
+    return response.rows;
+  }
+
   async findCards(board_id: string) {
     const sql = "select* from cards where board_id =$1";
     const response = await query(sql, [board_id]);
@@ -10,8 +17,12 @@ class CardQuery {
 
   async createCard(data: ICard) {
     const sql =
-      "insert into cards (board_id,title,status) values ($1,$2,$3) returning*";
-    const response = await query(sql, [data.board_id, data.title, data.status]);
+      "insert into cards (board_id,title,board_status_id) values ($1,$2,$3) returning*";
+    const response = await query(sql, [
+      data.board_id,
+      data.title,
+      data.board_status_id,
+    ]);
     return response.rows[0];
   }
 

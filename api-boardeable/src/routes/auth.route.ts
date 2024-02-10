@@ -17,4 +17,6 @@ authRouter.post(
   authController.signup
 );
 
+authRouter.get(`${prefix}/validation`, authController.validation);
+
 export default authRouter;

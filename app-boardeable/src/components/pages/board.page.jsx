@@ -1,10 +1,11 @@
+import { useParams } from "react-router-dom";
 import BoardTemplate from "../templates/board.template";
-import HomeTemplate from "../templates/home.template";
 
 function BoardPage() {
+  const { id } = useParams();
   return (
     <div className="w-full">
-      <BoardTemplate></BoardTemplate>
+      <BoardTemplate id={id}></BoardTemplate>
     </div>
   );
 }

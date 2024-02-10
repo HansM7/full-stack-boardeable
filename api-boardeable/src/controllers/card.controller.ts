@@ -9,9 +9,17 @@ class CardController {
     res.status(response.code).json(response.response);
   }
 
+  async findCardsReplace(req: Request, res: Response) {
+    const board_id = req.params.id;
+    const status_id = req.params.status_id;
+
+    const response = await cardService.findCardsReplace(board_id, status_id);
+    res.status(response.code).json(response.response);
+  }
+
   async createCard(req: Request, res: Response) {
     const board_id = req.params.id;
-    const data: ICard = req.body;
+    const data: { title: string; board_status_id: string } = req.body;
     const response = await cardService.createCard({ ...data, board_id });
     res.status(response.code).json(response.response);
   }

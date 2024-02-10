@@ -1,6 +1,6 @@
 function ActionCardMolecule({ handleEdit, handleDelete }) {
   return (
-    <div className="absolute bg-white min-w-20 shadow-md rounded-md right-0 mt-1 flex flex-col gap-1 px-1 py-1">
+    <div className="absolute bg-white min-w-20 shadow-md rounded-md right-0 mt-1 flex flex-col gap-1 px-1 py-1 z-10">
       <span
         onClick={handleEdit}
         role="button"

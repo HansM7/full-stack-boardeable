@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import ActionCardMolecule from "../molecules/action-card.molecule";
 import LogoOptionAtom from "../atoms/logo-option.atom";
+import axios from "axios";
+import { baseUrl } from "../../constants/api.constant";
 
-function BoardHeaderOrganism() {
+function BoardHeaderOrganism({ title, id, setTitle }) {
   const [isEdit, setIsEdit] = useState(true);
 
   const [isVisible, setIsVisible] = useState(false);
@@ -26,20 +28,40 @@ function BoardHeaderOrganism() {
     if (!isEdit) inputRef.current.focus();
   }, [isEdit]);
 
+  async function handleChangeTitle(e) {
+    e.preventDefault();
+    try {
+      const headers = {
+        Authorization: window.localStorage.getItem("auth-session"),
+      };
+
+      await axios.patch(
+        baseUrl + "/boards/" + id,
+        { title },
+        {
+          headers,
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="relative w-fit">
-      <div className="flex gap-2">
+      <form className="flex gap-2" onSubmit={handleChangeTitle}>
         <input
           ref={inputRef}
-          className="outline-none border-none bg-violet-300 w-40 text-xl font-bold"
+          className="outline-none border-none bg-transparent w-40 text-xl font-bold"
           type="text"
           disabled={isEdit}
-          value={"Mi boardssssss"}
+          onChange={(e) => setTitle(e.target.value)}
+          defaultValue={title}
         />
         <span role="button" onClick={handleClick}>
           <LogoOptionAtom></LogoOptionAtom>
         </span>
-      </div>
+      </form>
 
       {isVisible ? (
         <ActionCardMolecule

@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { initalStatus } from "../../hooks/home-list.hook";
+import axios from "axios";
+import { baseUrl } from "../../constants/api.constant";
+import { Link } from "react-router-dom";
 
 function HomeListOrganism() {
   const { optionsColors, color, handleClick, handleSelect, paletVisible } =
@@ -9,14 +12,45 @@ function HomeListOrganism() {
 
   const [boards, setBoards] = useState([]);
 
-  function handleCreate() {
-    const format = {
-      color,
-      title,
-    };
-
-    setBoards([...boards, format]);
+  async function handleCreate() {
+    if (title.length) {
+      const format = {
+        color,
+        title,
+      };
+      setBoards([...boards, format]);
+      await createBoard(format);
+    } else {
+      alert("Please enter title");
+    }
   }
+
+  async function fetchBooards() {
+    try {
+      const headers = {
+        Authorization: window.localStorage.getItem("auth-session"),
+      };
+      const response = await axios.get(baseUrl + "/boards", { headers });
+      setBoards([...boards, ...response.data.data]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function createBoard(board) {
+    try {
+      const headers = {
+        Authorization: window.localStorage.getItem("auth-session"),
+      };
+      await axios.post(baseUrl + "/boards", board, { headers });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchBooards();
+  }, []);
 
   return (
     <div className="flex flex-wrap gap-4">
@@ -69,12 +103,13 @@ function HomeListOrganism() {
       {/* iterar */}
 
       {boards.map((board, index) => (
-        <div
-          key={index}
-          className={`rounded-md min-h-40 ${board.color} p-4 min-w-[18rem]  flex items-center justify-center`}
-        >
-          <h1 className="font-bold text-xl">{board.title}</h1>
-        </div>
+        <Link key={index} to={"/boards/" + board.id}>
+          <div
+            className={`rounded-md min-h-40 ${board.color} p-4 min-w-[18rem]  flex items-center justify-center`}
+          >
+            <h1 className="font-bold text-xl">{board.title}</h1>
+          </div>
+        </Link>
       ))}
     </div>
   );
