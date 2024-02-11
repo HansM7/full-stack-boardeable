@@ -14,9 +14,12 @@ function HeaderOrganism() {
           <h2 className="text-xl font-bold">Boardable</h2>
         </Link>
         <div className="flex gap-2">
-          <button className="py-2 px-4 border rounded-md h-10 text-sm">
+          <Link
+            to={"/account"}
+            className="py-2 px-4 border rounded-md h-10 text-sm"
+          >
             My Account
-          </button>
+          </Link>
           <button
             onClick={logout}
             className="py-2 px-4 border border-gray-200 bg-gray-200 rounded-md h-10 text-sm"

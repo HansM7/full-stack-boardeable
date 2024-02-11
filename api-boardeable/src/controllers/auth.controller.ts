@@ -25,6 +25,22 @@ class AuthController {
     const res_validation = await authService.validation(token);
     return res.status(res_validation.code).json(res_validation.response);
   }
+
+  async me(req: Request, res: Response) {
+    const token = req.get("Authorization") as any;
+    const response = await authService.me(token);
+    return res.status(response.code).json(response.response);
+  }
+
+  async updateUser(req: Request, res: Response) {
+    const token = req.get("Authorization") as any;
+
+    const data = req.body;
+    const response = await authService.updateUser(token, data);
+    return res.status(response.code).json(response.response);
+  }
+
+  async deleteUser(req: Request, res: Response) {}
 }
 
 export const authController = new AuthController();

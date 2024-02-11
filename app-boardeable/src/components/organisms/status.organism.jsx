@@ -14,7 +14,19 @@ function StatusOrganism({ status, id }) {
 
   function handleEditHeader() {}
 
-  function handleDeleteHeader() {}
+  async function handleDeleteHeader(status_id) {
+    try {
+      const headers = {
+        Authorization: window.localStorage.getItem("auth-session"),
+      };
+      const response = await axios.delete(
+        baseUrl + "/boards/" + id + "/status/" + status.id,
+        { headers }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function fetchCards() {
     try {

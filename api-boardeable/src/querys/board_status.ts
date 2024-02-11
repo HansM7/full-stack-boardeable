@@ -10,18 +10,19 @@ class BoardStatusQuery {
 
   async createNewStatus(board_id: string, description: string) {
     const sql =
-      "INSERT INTO board_status (board_id, description) VALUES ($1, '$2');";
+      "INSERT INTO board_status (board_id, description) VALUES ($1, $2) returning*;";
 
-    await query(sql, [board_id, description]);
+    const response = await query(sql, [board_id, description]);
+    return response.rows[0];
   }
 
-  async deleteStatus(board_status_id: string) {
-    const sql = "delete from board_status where board_id =$1";
-    await query(sql, [board_status_id]);
+  async deleteStatus(status_id: string) {
+    const sql = "update  board_status set deleted=true where id =$1";
+    await query(sql, [status_id]);
   }
 
   async findStatus(board_id: string) {
-    const sql = "select*from board_status where board_id =$1";
+    const sql = "select*from board_status where board_id =$1 and deleted=false";
     const response = await query(sql, [board_id]);
     return response.rows;
   }

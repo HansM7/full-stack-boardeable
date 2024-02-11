@@ -39,6 +39,11 @@ class BoardQuery {
     const response = await query(sql, [title, board_id]);
     return response.rows[0];
   }
+
+  async deleteBoard(board_id: string) {
+    const sql = "update  boards set deleted=true where id = $1";
+    await query(sql, [board_id]);
+  }
 }
 
 export const boardQuery = new BoardQuery();

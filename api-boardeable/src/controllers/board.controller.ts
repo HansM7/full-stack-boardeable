@@ -35,6 +35,38 @@ class BoardController {
     const response = await boardService.updateBoard(board_id, title);
     res.status(response.code).json(response.response);
   }
+
+  async deleteBoard(req: Request, res: Response) {
+    const board_id = req.params.id;
+    const token = req.get("Authorization") as any;
+    const response = await boardService.deleteBoard(board_id, token);
+    res.status(response.code).json(response.response);
+  }
+
+  async deleteStatus(req: Request, res: Response) {
+    const board_id = req.params.id;
+    const status_id = req.params.status_id;
+    const token = req.get("Authorization") as any;
+    const response = await boardService.deleteBoardStatus(
+      status_id,
+      board_id,
+      token
+    );
+    res.status(response.code).json(response.response);
+  }
+
+  async createBoardStatus(req: Request, res: Response) {
+    const board_id = req.params.id;
+    const token = req.get("Authorization") as any;
+    const { description } = req.body;
+    // pending validation description zod
+    const response = await boardService.createBoardStatus(
+      board_id,
+      description,
+      token
+    );
+    res.status(response.code).json(response.response);
+  }
 }
 
 export const boardController = new BoardController();

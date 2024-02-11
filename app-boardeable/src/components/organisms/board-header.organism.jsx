@@ -3,8 +3,10 @@ import ActionCardMolecule from "../molecules/action-card.molecule";
 import LogoOptionAtom from "../atoms/logo-option.atom";
 import axios from "axios";
 import { baseUrl } from "../../constants/api.constant";
+import { useNavigate } from "react-router-dom";
 
 function BoardHeaderOrganism({ title, id, setTitle }) {
+  const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(true);
 
   const [isVisible, setIsVisible] = useState(false);
@@ -16,7 +18,17 @@ function BoardHeaderOrganism({ title, id, setTitle }) {
     if (!isEdit) setIsEdit(!isEdit);
   }
 
-  function handleDelete() {}
+  async function handleDelete() {
+    try {
+      const headers = {
+        Authorization: window.localStorage.getItem("auth-session"),
+      };
+      await axios.delete(baseUrl + "/boards/" + id, { headers });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function handleEdit() {
     setIsEdit(!isEdit);

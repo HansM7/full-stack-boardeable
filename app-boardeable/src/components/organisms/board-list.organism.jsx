@@ -1,12 +1,33 @@
 import React, { useEffect, useState } from "react";
-import ActionCardMolecule from "../molecules/action-card.molecule";
-import LogoOptionAtom from "../atoms/logo-option.atom";
 import axios from "axios";
 import { baseUrl } from "../../constants/api.constant";
 import StatusOrganism from "./status.organism";
 
 function BoardListOrganism({ id }) {
   const [dataStatus, setDataStatus] = useState([]);
+
+  const [newTitle, setNewTitle] = useState("");
+
+  async function handleCreateList() {
+    try {
+      if (newTitle === "") {
+        alert("Please enter title");
+      } else {
+        const headers = {
+          Authorization: window.localStorage.getItem("auth-session"),
+        };
+
+        await axios.post(
+          baseUrl + "/boards/" + id + "/status",
+          { description: newTitle },
+          { headers }
+        );
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function fetchStatus() {
     try {
@@ -16,6 +37,7 @@ function BoardListOrganism({ id }) {
       const response = await axios.get(`${baseUrl}/boards/${id}/status`, {
         headers,
       });
+
       setDataStatus(response.data.data);
     } catch (error) {
       console.log(error);
@@ -41,8 +63,12 @@ function BoardListOrganism({ id }) {
         <input
           className="px-3 py-2 outline-none border rounded-md"
           type="text"
+          onChange={(e) => setNewTitle(e.target.value)}
         />
-        <button className="bg-violet-700 text-white px-3 py-2 rounded-md w-fit">
+        <button
+          onClick={handleCreateList}
+          className="bg-violet-700 text-white px-3 py-2 rounded-md w-fit"
+        >
           Create new list
         </button>
       </div>
