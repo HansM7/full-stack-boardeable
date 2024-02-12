@@ -50,14 +50,14 @@ function BoardListOrganism({ id }) {
 
   return (
     <main className="flex flex-wrap mt-8 gap-4">
-      {/* first column ---------------------------------------------------------------- */}
-
+      {/* Esto itera todos las columnas a haber, to do, doing, done */}
       {dataStatus.map((status, index) => (
+        // Estas son las cards que pertenece a cada columna
         <StatusOrganism key={index} status={status} id={id} />
       ))}
 
       {/* end first column ---------------------------------------------------------------- */}
-
+      {/* Esto agrega una nueva columna */}
       <div className="w-72 flex flex-col rounded-md shadow-md p-4 bg-slate-100 gap-2">
         <h3>List title</h3>
         <input

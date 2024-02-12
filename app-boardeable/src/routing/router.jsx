@@ -4,6 +4,7 @@ import SignupPage from "../components/pages/signup.page";
 import HomePage from "../components/pages/home.page";
 import BoardPage from "../components/pages/board.page";
 import AccountPage from "../components/pages/account.page";
+import NewComponent from "../components/pages/new";
 
 export const router = createBrowserRouter([
   {
@@ -30,5 +31,9 @@ export const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignupPage></SignupPage>,
+  },
+  {
+    path: "/new",
+    element: <NewComponent></NewComponent>,
   },
 ]);
